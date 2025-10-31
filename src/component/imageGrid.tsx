@@ -18,21 +18,20 @@ export default function ImageGrid() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  // Initial load - fetch random images
-  useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        const data = await getRandomImages();
-        setImages(data);
-      } catch (err) {
-        console.error("Failed to fetch images:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchImages = async () => {
+  //     try {
+  //       const data = await getRandomImages();
+  //       setImages(data);
+  //     } catch (err) {
+  //       console.error("Failed to fetch images:", err);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchImages();
-  }, []);
+  //   fetchImages();
+  // }, []);
 
   // Handle search and pagination
   useEffect(() => {
@@ -54,10 +53,18 @@ export default function ImageGrid() {
       }
 
       setLoading(true);
+
       try {
-        const { results, total_pages } = await searchImages(query, currentPage);
+
+        // Fetch search results in another way to get total_pages info and results (learnt something new here)
+        // const { results, total_pages } = await searchImages(query, currentPage);
+
+        const response = await searchImages(query, currentPage);
+        const results = response.results;
+        const total_pages = response.total_pages;
+
         setImages(results);
-        setTotalPages(Math.min(total_pages, 5)); // Limit to 50 pages
+        setTotalPages(Math.min(total_pages, 5)); // Limit to 5 pages
       } catch (err) {
         console.error("Search failed:", err);
       } finally {
@@ -93,15 +100,15 @@ export default function ImageGrid() {
 
   const goToNextPage = () => {
     if (currentPage < totalPages) {
-      setCurrentPage(prev => prev + 1);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setCurrentPage((prev) => prev + 1);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
   const goToPreviousPage = () => {
     if (currentPage > 1) {
-      setCurrentPage(prev => prev - 1);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setCurrentPage((prev) => prev - 1);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
@@ -216,8 +223,18 @@ export default function ImageGrid() {
                 disabled={currentPage === 1}
                 className="flex items-center gap-2 px-6 py-3 bg-white border-2 border-slate-200 rounded-xl font-medium text-slate-700 hover:bg-slate-50 hover:border-slate-300 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
                 </svg>
                 Previous
               </button>
@@ -234,8 +251,18 @@ export default function ImageGrid() {
                 className="flex items-center gap-2 px-6 py-3 bg-blue-500 text-white rounded-xl font-medium hover:bg-blue-600 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
               >
                 Next
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
                 </svg>
               </button>
             </div>
@@ -246,7 +273,10 @@ export default function ImageGrid() {
       {/* Card Preview Modal */}
       {selectedImage && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="relative w-full" style={{ maxWidth: 'min(90vw, 500px)', minWidth: '320px' }}>
+          <div
+            className="relative w-full"
+            style={{ maxWidth: "min(90vw, 500px)", minWidth: "320px" }}
+          >
             {/* Close button */}
             <button
               onClick={closeOverlay}
@@ -258,7 +288,7 @@ export default function ImageGrid() {
             <div
               id="card-design"
               className="relative from-slate-900 via-slate-800 to-slate-900 rounded-3xl shadow-2xl overflow-hidden"
-              style={{ aspectRatio: '4/5' }}
+              style={{ aspectRatio: "4/5" }}
             >
               {/* Card Content */}
               <div className="h-full flex flex-col p-8 sm:p-10">
@@ -275,7 +305,7 @@ export default function ImageGrid() {
                       src={selectedImage.urls.regular}
                       alt="Selected"
                       className="w-full h-full object-cover"
-                      style={{ aspectRatio: '4/5' }}
+                      style={{ aspectRatio: "4/5" }}
                     />
                   </div>
                 </div>
@@ -322,8 +352,6 @@ export default function ImageGrid() {
           </div>
         </div>
       )}
-
-
     </div>
   );
 }
