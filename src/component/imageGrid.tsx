@@ -55,7 +55,6 @@ export default function ImageGrid() {
       setLoading(true);
 
       try {
-
         // Fetch search results in another way to get total_pages info and results (learnt something new here)
         // const { results, total_pages } = await searchImages(query, currentPage);
 
@@ -113,7 +112,7 @@ export default function ImageGrid() {
   };
 
   return (
-    <div className="min-h-screen from-slate-50 to-slate-100 py-8 px-4">
+    <div className="min-h-screen from-slate-50 to-slate-100 ">
       {/* Search Bar */}
       <div className="max-w-2xl mx-auto mb-8">
         <div className="relative">
@@ -291,12 +290,8 @@ export default function ImageGrid() {
               style={{ aspectRatio: "4/5" }}
             >
               {/* Card Content */}
-              <div className="h-full flex flex-col p-8 sm:p-10">
-                <div className=" mb-6">
-                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white text-center tracking-tight">
-                    Thank You
-                  </h2>
-                </div>
+              <div className="relative h-full flex flex-col p-8 sm:p-10">
+                
 
                 {/* Image */}
                 <div className="flex-1 flex items-center justify-center mb-6">
@@ -311,13 +306,20 @@ export default function ImageGrid() {
                 </div>
 
                 {/* Name */}
-                <div className=" flex justify-center">
-                  <div className="px-6 sm:px-8 py-3 bg-white/10 backdrop-blur-md rounded-full border border-white/20">
-                    <p className="text-white text-xl sm:text-2xl font-semibold whitespace-nowrap">
+                <div className="flex justify-center absolute bottom-0 left-1/2 -translate-x-1/2 mb-20">
+                  <div className="px-6 sm:px-8 py-3">
+                    <p className="text-white text-3xl sm:text-3xl font-semibold whitespace-nowrap">
                       {userName || "Your Name"}
                     </p>
                   </div>
                 </div>
+
+                {/* Thank You Text */}
+                <div className="text-center mb-12 absolute top-12 left-1/2 -translate-x-1/2">
+                  <h2 className="text-3xl sm:text-4xl font-bold text-white mb-2">
+                    Thank You!
+                  </h2>
+                </div>  
               </div>
             </div>
 

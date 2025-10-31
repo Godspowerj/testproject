@@ -3,7 +3,8 @@ import ImageGrid from "@/component/imageGrid";
 export default function Home() {
   return (
     <div>
-      <div className="max-w-7xl mx-auto text-center">
+      <div className="text-center px-6">
+
         <h1 className="text-4xl sm:text-5xl font-bold text-slate-800 mb-3">
           Thank You Card Creator
         </h1>
